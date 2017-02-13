@@ -1,0 +1,22 @@
+{
+  "env": {
+    "es6": true,
+    "browser": true,
+    "node": true
+  },
+  "parserOptions": {
+    "ecmaVersion": 6,
+    "sourceType": "module"
+  },
+  "rules": {
+    "semi": "error",
+    "eqeqeq": "error",
+    "curly": "error",
+    "no-debugger": "error",
+    "no-console": "error",
+    "no-alert": "error",
+    "no-unused-vars": "warn",
+    "no-undef": "error",
+    "comma-dangle": "error"
+  }
+}
