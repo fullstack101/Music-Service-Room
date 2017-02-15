@@ -5,7 +5,7 @@ const readline = require('readline');
 const bodyParser = require('body-parser');
 
 app.get('/', function(req, res){
-  res.sendFile(__dirname + '/index.html');
+  res.sendFile(__dirname + '/server.html');
 });
 
 //==================JUST IGNORE================================================
