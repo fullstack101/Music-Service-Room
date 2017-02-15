@@ -3,9 +3,10 @@ const http = require('http').Server(app);
 const io = require('socket.io')(http);
 const readline = require('readline');
 const bodyParser = require('body-parser');
+const path = require('path');
 
 app.get('/', function(req, res){
-  res.sendFile(__dirname + '/server.html');
+  res.sendFile(path.join(__dirname + '/../client/chat.html'));
 });
 
 //==================JUST IGNORE================================================
