@@ -17,6 +17,7 @@
     "gulp-babel": "*",
     "gulp-browserify": "*",
     "gulp-sourcemaps": "*",
+    "handlebars": "*",
     "mocha": "^3.1.0",
     "querystring": "*"
   },
