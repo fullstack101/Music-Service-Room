@@ -61,13 +61,16 @@ const redirect_uri = 'http://localhost:3000/callback';
 
 let stateKey = 'spotify_auth_state';
 
-app.use(express.static(path.join(__dirname + '/../client')))
+app.use(express.static(path.join(__dirname + '/../dist/ready')))
    .use(cookieParser());
 
-app.get('/', function(req, res){
-     res.sendFile(path.join(__dirname + '/../client/spotify.html'));
+app.get('/', function(req, res) {
+     res.sendFile(path.join(__dirname + '/../dist/ready/spotify.html'));
 });
 
+app.get('/spotify.js', function(req, res) {
+     res.sendFile(path.join(__dirname + '/../dist/ready/spotify.js'));
+});
 
 app.get('/login', function(req, res) {
   let state = 'random_state';
