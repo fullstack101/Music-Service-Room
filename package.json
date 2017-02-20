@@ -25,7 +25,8 @@
     "body-parser": "*",
     "express": "*",
     "request": "*",
-    "socket.io": "^1.7.2"
+    "socket.io": "^1.7.2",
+    "underscore": "^1.8.3"
   },
   "repository": {
     "type": "git",
