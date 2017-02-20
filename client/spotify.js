@@ -1,4 +1,3 @@
-//const $ = require('jQuery');
 const Handlebars = require('handlebars');
 
 (function() {
@@ -19,15 +18,11 @@ const Handlebars = require('handlebars');
       userProfileTemplate = Handlebars.compile(userProfileSource),
       userProfilePlaceholder = document.getElementById('user-profile');
 
-      console.log(userProfilePlaceholder);
-
   var oauthSource = document.getElementById('oauth-template').innerHTML,
       oauthTemplate = Handlebars.compile(oauthSource),
       oauthPlaceholder = document.getElementById('oauth');
 
   var params = getHashParams();
-
-  console.log(params);
 
   var access_token = params.access_token,
       refresh_token = params.refresh_token,
