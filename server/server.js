@@ -8,79 +8,14 @@ const request = require('request');
 const querystring = require('querystring');
 const cookieParser = require('cookie-parser');
 const _ = require("underscore");
-var participants = [];
-
-//Server's IP address
-app.set("ipaddr", "127.0.0.1");
-
-//Server's port number
-app.set("port", 3000);
+let participants = [];
 
 //specify views for folder
-app.set('views', express.static(__dirname + '/../client'));
-
-//view engine in jade
-//app.set("view engine", "jade");
-
-//specify where the static content is
-app.use(express.static(__dirname + '/../client'));
+// app.set('views', express.static(__dirname + '/../dist/ready'));
 
 //Tells the server to support JSON requests
 app.use(bodyParser.json());
 app.use(bodyParser.urlencoded({ extended: false }));
-
-app.get("/", function (req, res) {
-  //res.render(__dirname + '/../client/index');
-  res.sendFile(path.resolve(__dirname + "/../client/chat.html"));
-});
-
-//POST method to create a chat message
-app.post("/message", function(req, res) {
-
-  //The request body expects a param named "message"
-  let message = req.body.message;
-
-  //If the message is empty or wasn't sent it's a bad request
-  if(_.isUndefined(message) || _.isEmpty(message.trim())) {
-    return res.json(400, {error: "Message is invalid"});
-  }
-
-  let name = req.body.name;
-  //console.log("socket: " + typeof(sockets));
-  io.sockets.emit("incomingMessage", {message: message, name: name});
-
-  //Looks good, let the client know
-  res.status(200).json({message: "Message received"});
-
-});
-
-io.on("connection", function(socket){
-
-  //when a new user connects
-  socket.on("newUser", function(data) {
-      participants.push({id: data.id, name: data.name});
-      io.sockets.emit("newConnection", {participants: participants});
-  });
-
-  //when a user changes their name
-  socket.on("nameChange", function(data){
-    _.findWhere(participants, {id: socket.id}).name = data.name;
-    io.sockets.emit("nameChnaged", {id: data.id, name: data.name});
-  });
-
-  //when a user disconnects
-  socket.on("disconnect", function(){
-    participants = _.without(participants,_.findWhere(participants, {id: socket.id}));
-    io.sockets.emit("userDisconnected", {id: socket.id, sender:"system"});
-  });
-
-});
-
-http.listen(3000, function(){
-  console.log("Server up and running. Go to http://" +
-    app.get("ipaddr") + ":" + app.get("port"));
-});
-
 
 //=======================SPOTIFY API===================================
 
@@ -203,4 +138,55 @@ app.get('/refresh_token', function(req, res) {
   });
 });
 
-//http.listen(3000);
+//=======================SPOTIFY API END=================================
+
+app.get("/chat", function (req, res) {
+  //res.render(__dirname + '/../client/index');
+  res.sendFile(path.resolve(__dirname + "/../dist/ready/chat.html"));
+});
+
+//POST method to create a chat message
+app.post("/message", function(req, res) {
+
+  //The request body expects a param named "message"
+  let message = req.body.message;
+
+  //If the message is empty or wasn't sent it's a bad request
+  if(_.isUndefined(message) || _.isEmpty(message.trim())) {
+    return res.json(400, {error: "Message is invalid"});
+  }
+
+  let name = req.body.name;
+  //console.log("socket: " + typeof(sockets));
+  io.sockets.emit("incomingMessage", {message: message, name: name});
+
+  //Looks good, let the client know
+  res.status(200).json({message: "Message received"});
+
+});
+
+io.on("connection", function(socket){
+
+  //when a new user connects
+  socket.on("newUser", function(data) {
+      participants.push({id: data.id, name: data.name});
+      io.sockets.emit("newConnection", {participants: participants});
+  });
+
+  //when a user changes their name
+  socket.on("nameChange", function(data){
+    _.findWhere(participants, {id: socket.id}).name = data.name;
+    io.sockets.emit("nameChnaged", {id: data.id, name: data.name});
+  });
+
+  //when a user disconnects
+  socket.on("disconnect", function(){
+    participants = _.without(participants,_.findWhere(participants, {id: socket.id}));
+    io.sockets.emit("userDisconnected", {id: socket.id, sender:"system"});
+  });
+
+});
+
+http.listen(3000, function(){
+  console.log("Server up and running. Go to port 3000.");
+});
