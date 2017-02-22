@@ -12,8 +12,9 @@ gulp.task('default', () => {
     .pipe(sourcemaps.write())
     .pipe(gulp.dest('dist/tmp'))
     .on('end', () => {
-        gulp.src('dist/tmp/spotify.js')
+        gulp.src('dist/tmp/*.js')
         .pipe(browserify({debug: true}))
         .pipe(gulp.dest('dist/ready'));
-    }).on('end', () => gulp.src('client/spotify.html').pipe(gulp.dest('dist/ready')));
+    }).on('end', () => gulp.src('client/*.html').pipe(gulp.dest('dist/ready')))
+    .on('end', () => gulp.src('client/css/style.css').pipe(gulp.dest('dist/ready')));
 });
