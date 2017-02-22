@@ -6,7 +6,8 @@
   "scripts": {
     "build": "node ./node_modules/gulp/bin/gulp.js",
     "start": "node server/server.js",
-    "test": "echo \"Error: no test specified\" && exit 1"
+    "test": "node ./node_modules/mocha/bin/mocha",
+    "dev": "npm run build && npm run start"
   },
   "devDependencies": {
     "babel-preset-es2015": "^6.14.0",
