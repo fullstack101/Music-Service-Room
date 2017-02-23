@@ -24,7 +24,7 @@ function init() {
   socket.on('connect', function () {
     sessionId = socket.io.engine.id;
     console.log('Connected ' + sessionId);
-    socket.emit('newUser', {id: sessionId, name: $('#name').val()});
+    socket.emit('newUser', {id: sessionId, name: req.session.user_id});
   });
 
   /*
@@ -75,7 +75,7 @@ function init() {
    */
   function sendMessage() {
     var outgoingMessage = $('#outgoingMessage').val();
-    var name = $('#name').val();
+    var name = req.session.user_id;
     $.ajax({
       url:  '/message',
       type: 'POST',

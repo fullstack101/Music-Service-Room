@@ -8,6 +8,7 @@ const request = require('request');
 const querystring = require('querystring');
 const cookieParser = require('cookie-parser');
 const _ = require("underscore");
+const session = require('express-session')
 let participants = [];
 
 //specify views for folder
@@ -16,6 +17,12 @@ let participants = [];
 //Tells the server to support JSON requests
 app.use(bodyParser.json());
 app.use(bodyParser.urlencoded({ extended: false }));
+app.use(session({
+  cookieName: 'session',
+  secret: 'random_string_goes_here',
+  duration: 30 * 60 * 1000,
+  activeDuration: 5 * 60 * 1000
+}));
 
 //=======================SPOTIFY API===================================
 
@@ -87,16 +94,19 @@ app.get('/callback', function(req, res) {
         let access_token = body.access_token,
             refresh_token = body.refresh_token;
 
-        // var options = {
-        //   url: 'https://api.spotify.com/v1/me',
-        //   headers: { 'Authorization': 'Bearer ' + access_token },
-        //   json: true
-        // };
+        var options = {
+          url: 'https://api.spotify.com/v1/me',
+          headers: { 'Authorization': 'Bearer ' + access_token },
+          json: true
+        };
 
-        // use the access token to access the Spotify Web API
-        // request.get(options, function(error, response, body) {
-        //   //console.log(body);
-        // });
+
+        //use the access token to access the Spotify Web API
+        request.get(options, function(error, response, body) {
+          req.session.user_id = body.id;
+        });
+
+        //res.redirect('/chat');
 
         //we can also pass the token to the browser to make requests from there
         res.redirect('/#' +
@@ -140,6 +150,7 @@ app.get('/refresh_token', function(req, res) {
 
 //=======================SPOTIFY API END=================================
 
+
 app.get("/chat", function (req, res) {
   //res.render(__dirname + '/../client/index');
   res.sendFile(path.resolve(__dirname + "/../dist/ready/chat.html"));
@@ -156,9 +167,8 @@ app.post("/message", function(req, res) {
     return res.json(400, {error: "Message is invalid"});
   }
 
-  let name = req.body.name;
   //console.log("socket: " + typeof(sockets));
-  io.sockets.emit("incomingMessage", {message: message, name: name});
+  io.sockets.emit("incomingMessage", {message: message, name: req.session.user_id});
 
   //Looks good, let the client know
   res.status(200).json({message: "Message received"});
@@ -169,15 +179,15 @@ io.on("connection", function(socket){
 
   //when a new user connects
   socket.on("newUser", function(data) {
-      participants.push({id: data.id, name: data.name});
+      participants.push({id: data.id, name: req.session.user_id});
       io.sockets.emit("newConnection", {participants: participants});
   });
 
-  //when a user changes their name
-  socket.on("nameChange", function(data){
-    _.findWhere(participants, {id: socket.id}).name = data.name;
-    io.sockets.emit("nameChnaged", {id: data.id, name: data.name});
-  });
+  // //when a user changes their name
+  // socket.on("nameChange", function(data){
+  //   _.findWhere(participants, {id: socket.id}).name = data.name;
+  //   io.sockets.emit("nameChnaged", {id: data.id, name: data.name});
+  // });
 
   //when a user disconnects
   socket.on("disconnect", function(){
@@ -188,5 +198,5 @@ io.on("connection", function(socket){
 });
 
 http.listen(3000, function(){
-  console.log("Server up and running. Go to port 3000.");
+  console.log("Server up and running. Go to port 3000."); //eslint-disable-line no-console
 });

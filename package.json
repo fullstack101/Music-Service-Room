@@ -27,7 +27,8 @@
     "express": "*",
     "request": "*",
     "socket.io": "^1.7.2",
-    "underscore": "^1.8.3"
+    "underscore": "^1.8.3",
+    "express-session": "*"
   },
   "repository": {
     "type": "git",
