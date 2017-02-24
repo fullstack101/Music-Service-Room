@@ -30,3 +30,5 @@ npm run dev
 ###Team members
 
 Kiril Zhelyazkov, Kristiyana Gacheva, Yana Aleksieva
+
+Testing Travis Continuous Integration
