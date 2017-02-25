@@ -24,7 +24,8 @@ function init() {
   socket.on('connect', function () {
     sessionId = socket.io.engine.id;
     console.log('Connected ' + sessionId);
-    socket.emit('newUser', {id: sessionId, name: req.session.user_id});
+    socket.emit('newUser', {id: sessionId, name: document.cookie.user_id});
+
   });
 
   /*
@@ -75,7 +76,7 @@ function init() {
    */
   function sendMessage() {
     var outgoingMessage = $('#outgoingMessage').val();
-    var name = req.session.user_id;
+    var name = document.cookie.user_id;
     $.ajax({
       url:  '/message',
       type: 'POST',
@@ -90,7 +91,7 @@ function init() {
    is something to share
    */
   function outgoingMessageKeyDown(event) {
-    if (event.which == 13) {
+    if (event.which === 13) {
       event.preventDefault();
       if ($('#outgoingMessage').val().trim().length <= 0) {
         return;

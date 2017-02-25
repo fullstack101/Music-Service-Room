@@ -8,8 +8,14 @@ const request = require('request');
 const querystring = require('querystring');
 const cookieParser = require('cookie-parser');
 const _ = require("underscore");
-const session = require('express-session')
+const session = require('express-session');
 let participants = [];
+//const spotifyUsers = {};
+
+const isMessageValid = require('./helpers.js').isMessageValid;
+const getAuthOptions = require('./helpers.js').getAuthOptions;
+const getUserSpotifyId = require('./helpers.js').getUserSpotifyId;
+
 
 //specify views for folder
 // app.set('views', express.static(__dirname + '/../dist/ready'));
@@ -94,17 +100,9 @@ app.get('/callback', function(req, res) {
         let access_token = body.access_token,
             refresh_token = body.refresh_token;
 
-        var options = {
-          url: 'https://api.spotify.com/v1/me',
-          headers: { 'Authorization': 'Bearer ' + access_token },
-          json: true
-        };
-
-
-        //use the access token to access the Spotify Web API
-        request.get(options, function(error, response, body) {
-          req.session.user_id = body.id;
-        });
+        //getUserSpotifyId returns undefined????????????????
+        req.session.user_id = getUserSpotifyId(request, access_token);
+        console.log(req.session.user_id);
 
         //res.redirect('/chat');
 
@@ -125,18 +123,9 @@ app.get('/callback', function(req, res) {
 });
 
 app.get('/refresh_token', function(req, res) {
-
   // requesting access token from refresh token
   const refresh_token = req.query.refresh_token;
-  const authOptions = {
-    url: 'https://accounts.spotify.com/api/token',
-    headers: { 'Authorization': 'Basic ' + (new Buffer(client_id + ':' + client_secret).toString('base64')) },
-    form: {
-      grant_type: 'refresh_token',
-      refresh_token: refresh_token
-    },
-    json: true
-  };
+  const authOptions = getAuthOptions(refresh_token);
 
   request.post(authOptions, function(error, response, body) {
     if (!error && response.statusCode === 200) {
@@ -152,42 +141,28 @@ app.get('/refresh_token', function(req, res) {
 
 
 app.get("/chat", function (req, res) {
-  //res.render(__dirname + '/../client/index');
   res.sendFile(path.resolve(__dirname + "/../dist/ready/chat.html"));
 });
 
 //POST method to create a chat message
 app.post("/message", function(req, res) {
-
-  //The request body expects a param named "message"
   let message = req.body.message;
+  let name = req.body.name;
 
-  //If the message is empty or wasn't sent it's a bad request
-  if(_.isUndefined(message) || _.isEmpty(message.trim())) {
-    return res.json(400, {error: "Message is invalid"});
+  if(!isMessageValid(message)) {
+    return res.status(400).json({error: "Message is invalid"});
   }
 
-  //console.log("socket: " + typeof(sockets));
-  io.sockets.emit("incomingMessage", {message: message, name: req.session.user_id});
-
-  //Looks good, let the client know
-  res.status(200).json({message: "Message received"});
-
+  io.sockets.emit("incomingMessage", {message: message, name: name});
 });
 
 io.on("connection", function(socket){
 
   //when a new user connects
   socket.on("newUser", function(data) {
-      participants.push({id: data.id, name: req.session.user_id});
+      participants.push({id: data.id, name: data.name});
       io.sockets.emit("newConnection", {participants: participants});
   });
-
-  // //when a user changes their name
-  // socket.on("nameChange", function(data){
-  //   _.findWhere(participants, {id: socket.id}).name = data.name;
-  //   io.sockets.emit("nameChnaged", {id: data.id, name: data.name});
-  // });
 
   //when a user disconnects
   socket.on("disconnect", function(){

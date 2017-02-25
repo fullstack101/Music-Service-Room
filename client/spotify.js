@@ -14,6 +14,7 @@ const Handlebars = require('handlebars');
     }
     return hashParams;
   }
+
   var userProfileSource = document.getElementById('user-profile-template').innerHTML,
       userProfileTemplate = Handlebars.compile(userProfileSource),
       userProfilePlaceholder = document.getElementById('user-profile');
