@@ -1,4 +1,5 @@
 const _ = require("underscore");
+const request = require('request');
 
 const client_id = '51ddd5db3e6342b69cbc9a9f957e48c6';
 const client_secret = '3772d947a7c147f28210541b352472fb';
@@ -37,7 +38,7 @@ const getAuthOptions = function(refresh_token) {
 //   });
 // };
 
-const getUserSpotifyId = (request, access_token) => new Promise((resolve, reject) => {
+const getUserSpotifyId = access_token => new Promise((resolve, reject) => {
   request.get(access_token, (error, response, body) => {
     if (error) { reject(error); return; }
     resolve(body.id);

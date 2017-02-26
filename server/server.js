@@ -10,7 +10,7 @@ const cookieParser = require('cookie-parser');
 const _ = require("underscore");
 const session = require('express-session');
 let participants = [];
-//const spotifyUsers = {};
+let spotifyUser = {};
 
 const isMessageValid = require('./helpers.js').isMessageValid;
 const getAuthOptions = require('./helpers.js').getAuthOptions;
@@ -101,11 +101,7 @@ app.get('/callback', function(req, res) {
         let access_token = body.access_token,
             refresh_token = body.refresh_token;
 
-        getUserSpotifyId(request, getUserOptions(access_token)).then(id => req.session.user_id = id);
-
-        console.log(req.session.user_id);
-    
-        //res.redirect('/chat');
+        getUserSpotifyId(getUserOptions(access_token)).then(id => req.session.user_id = id).then(() => spotifyUser={id: req.session.user_id, token: access_token});
 
         //we can also pass the token to the browser to make requests from there
         res.redirect('/#' +
@@ -161,7 +157,7 @@ io.on("connection", function(socket){
 
   //when a new user connects
   socket.on("newUser", function(data) {
-      participants.push({id: data.id, name: data.name});
+      participants.push({id: data.id, name: spotifyUser.id});
       io.sockets.emit("newConnection", {participants: participants});
   });
 
