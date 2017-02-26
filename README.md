@@ -1,4 +1,7 @@
 # Music-Service-Room
+
+![build status](https://travis-ci.org/fullstack101/Music-Service-Room.svg?branch=master)
+
 ##Team4
 
 ###Project Description
