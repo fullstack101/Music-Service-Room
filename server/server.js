@@ -14,6 +14,7 @@ let participants = [];
 
 const isMessageValid = require('./helpers.js').isMessageValid;
 const getAuthOptions = require('./helpers.js').getAuthOptions;
+const getUserOptions = require('./helpers.js').getUserOptions;
 const getUserSpotifyId = require('./helpers.js').getUserSpotifyId;
 
 
@@ -100,10 +101,10 @@ app.get('/callback', function(req, res) {
         let access_token = body.access_token,
             refresh_token = body.refresh_token;
 
-        //getUserSpotifyId returns undefined????????????????
-        req.session.user_id = getUserSpotifyId(request, access_token);
-        console.log(req.session.user_id);
+        getUserSpotifyId(request, getUserOptions(access_token)).then(id => req.session.user_id = id);
 
+        console.log(req.session.user_id);
+    
         //res.redirect('/chat');
 
         //we can also pass the token to the browser to make requests from there
