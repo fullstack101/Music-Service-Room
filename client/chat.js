@@ -4,6 +4,7 @@ function init() {
 
   //We'll save our session ID in a variable for later
   var sessionId = '';
+  let chat_users = [];
 
   //Helper function to update the participants' list
   function updateParticipants(participants) {
@@ -11,6 +12,14 @@ function init() {
     for (var i = 0; i < participants.length; i++) {
       $('#participants').append('<span id="' + participants[i].id + '">' +
         participants[i].name + ' ' + (participants[i].id === sessionId ? '(You)' : '') + '<br /></span>');
+    }
+  }
+
+  function getParticipantName(participants) {
+    for (var i = 0; i < participants.length; i++) {
+      if (participants[i].id === sessionId){
+         return participants[i].name;
+      };
     }
   }
 
@@ -24,7 +33,8 @@ function init() {
   socket.on('connect', function () {
     sessionId = socket.io.engine.id;
     console.log('Connected ' + sessionId);
-    socket.emit('newUser', {id: sessionId, name: $('#name').val()});
+    socket.emit('newUser', {id: sessionId, name: document.cookie.user_id});
+
   });
 
   /*
@@ -34,6 +44,7 @@ function init() {
    */
   socket.on('newConnection', function (data) {
     updateParticipants(data.participants);
+    chat_users = data.participants.slice();
   });
 
   /*
@@ -42,14 +53,6 @@ function init() {
    */
   socket.on('userDisconnected', function(data) {
     $('#' + data.id).remove();
-  });
-
-  /*
-   When the server fires the "nameChanged" event, it means we
-   must update the span with the given ID accordingly
-   */
-  socket.on('nameChanged', function (data) {
-    $('#' + data.id).html(data.name + ' ' + (data.id === sessionId ? '(You)' : '') + '<br />');
   });
 
   /*
@@ -75,7 +78,7 @@ function init() {
    */
   function sendMessage() {
     var outgoingMessage = $('#outgoingMessage').val();
-    var name = $('#name').val();
+    var name = getParticipantName(chat_users);
     $.ajax({
       url:  '/message',
       type: 'POST',
@@ -90,7 +93,7 @@ function init() {
    is something to share
    */
   function outgoingMessageKeyDown(event) {
-    if (event.which == 13) {
+    if (event.which === 13) {
       event.preventDefault();
       if ($('#outgoingMessage').val().trim().length <= 0) {
         return;
