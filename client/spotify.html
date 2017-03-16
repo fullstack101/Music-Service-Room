@@ -3,38 +3,39 @@
   <head>
     <title>Web-Service-Room</title>
     <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/4.0.0-alpha.6/css/bootstrap.min.css">
-    <link rel="stylesheet" type="text/css" href="css/spotify.css">
+    <link rel="stylesheet" type="text/css" href="spotify.css">
   </head>
 
   <body>
-    <div class="container content text-center">
-      <div class="center-btn" id="login">
-        <h1>Welcome to Music-Service-Room!</h1>
+    <div class="content">
+      <div class="wrapper">
+      <div class="center-btn text-center" id="login">
+        <h1>Welcome to Music Room!</h1>
         <a href="/login" class="btn btn-outline-success btn-lg">Log in with Spotify</a>
       </div>
+      <div class="profile_info">
       <div id="loggedin">
         <div id="user-profile">
         </div>
         <div id="oauth">
         </div>
-        <a class="btn btn-default" href="/chat" role="button">Go to chatroom</a>
+        <a href="/chat" class="btn btn-primary" role="button">Chat</a>
       </div>
     </div>
+    </div>
+  </div>
 
     <script id="user-profile-template" type="text/x-handlebars-template">
-      <h1>Hello, {{id}}!</h1>
+      <h2>Hello, {{id}}!</h2>
       <div class="media">
         <div class="pull-left">
-          <img class="media-object" width="150" src="{{images.0.url}}" />
+          <img class="media-object" src="{{images.0.url}}" />
         </div>
         <div class="media-body">
           <dl class="dl-horizontal">
             <dt>Display name</dt><dd class="clearfix">{{display_name}}</dd>
             <dt>Id</dt><dd>{{id}}</dd>
             <dt>Email</dt><dd>{{email}}</dd>
-            <dt>Spotify URI</dt><dd><a href="{{external_urls.spotify}}">{{external_urls.spotify}}</a></dd>
-            <dt>Link</dt><dd><a href="{{href}}">{{href}}</a></dd>
-            <dt>Profile Image</dt><dd class="clearfix"><a href="{{images.0.url}}">{{images.0.url}}</a></dd>
             <dt>Country</dt><dd>{{country}}</dd>
           </dl>
         </div>

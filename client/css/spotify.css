@@ -1,12 +1,17 @@
-.content:before {
+.wrapper{
+  width: 980px;
+  margin: 0 auto;
+  position: relative;
+}
+
+.content::before {
   content: "";
   position: fixed;
   left: 0;
   right: 0;
   z-index: -1;
-
   display: block;
-  background-image: -moz-linear-gradient(rgba(0, 0, 0, 0.5), rgba(0, 0, 0, 0.5)), url(https://www.sohohousechicago.com/system/files/012015/54ad5d58f942617cc2000041/xlarge/063676_089.jpg?1424778422);
+  background-image: url("https://www.sohohousechicago.com/system/files/012015/54ad5d58f942617cc2000041/xlarge/063676_089.jpg?1424778422");
   transform: scale(1.03);
   width: 100%;
   height: 100%;
@@ -22,16 +27,45 @@
   position: fixed;
   left: 0;
   right: 0;
-
   margin-left: 20px;
   margin-right: 20px;
 }
 
 h1 {
-  margin-bottom: 4em;
+  margin-bottom: 1em;
   color: white;
 }
 
+h2 {
+  margin: 1em auto;
+  color: #606060;
+  text-align: center;
+}
+
 .center-btn {
-  margin-top: 15em;
+  margin: 15em auto;
+  position: relative;
+  width: 80%;
+  border: 3px solid #5CB85C;
+  padding: 40px;
+  background-color: #181F2F;
+  border-radius: 10px;
+}
+
+.profile_info {
+  margin: 3em auto;
+  border: 1px solid #606060;
+  background-color: #D7D3D0;
+  border-radius: 10px;
+  opacity: 0.9;
+}
+
+.media-body {
+  margin-left: 2em;
+}
+
+.media-object{
+  border-radius: 50%;
+  margin-left: 2em;
+  width: 150px;
 }
