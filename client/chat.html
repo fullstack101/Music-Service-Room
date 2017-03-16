@@ -2,7 +2,7 @@
 <html>
   <head>
     <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/4.0.0-alpha.6/css/bootstrap.min.css">
-    <link rel="stylesheet" href="css/style.css">
+    <link rel="stylesheet" href="style.css">
     <script src="//code.jquery.com/jquery-1.11.0.min.js"></script>
     <script src="https://cdn.socket.io/socket.io-1.2.0.js"></script>
     <script src="chat.js"></script>
@@ -22,9 +22,9 @@
             <form id="messageForm">
               <div class="col-lg-6">
                 <div class="input-group bottom">
-                  <input type="text" class="form-control " placeholder="Share something">
+                  <input type="text" class="form-control" placeholder="Share something" id="outgoingMessage">
                   <span class="input-group-btn">
-                    <button class="btn btn-secondary" type="button">Send</button>
+                    <button class="btn btn-secondary" type="button" id="send">Send</button>
                   </span>
                 </div>
               </div>
