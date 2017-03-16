@@ -1,28 +1,39 @@
 <!DOCTYPE html>
 <html>
   <head>
-    <link rel="stylesheet" href="http://fonts.googleapis.com/css?family=Open+Sans">
+    <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/4.0.0-alpha.6/css/bootstrap.min.css">
     <link rel="stylesheet" href="style.css">
     <script src="//code.jquery.com/jquery-1.11.0.min.js"></script>
     <script src="https://cdn.socket.io/socket.io-1.2.0.js"></script>
     <script src="chat.js"></script>
-    <title>Super Awesome Chatroom</title>
+    <title>Chatroom</title>
   </head>
   <body>
-    <h1>Super Awesome Chatroom</h1>
+    <div class="container-fluid">
+      <div class="row wrapper">
+        <h1>Chatroom</h1>
+        <div class="col-lg-2 sidebar">
+          <div><b>Participants</b><br>
+            <div id="participants"></div>
+          </div>
+        </div>
+      </div>
+        <div class="row">
+          <div class="col">
+            <form id="messageForm">
+              <div>
+                <div class="input-group bottom">
+                  <input type="text" class="form-control" placeholder="Share something" id="outgoingMessage">
+                  <span class="input-group-btn">
+                    <button class="btn btn-secondary" type="button" id="send">Send</button>
+                  </span>
+                </div>
+              </div>
+            </form>
+          </div>
+        </div>
+      </div>
+      <div id="messages"></div>
     <div>
-      <div class="inlineBlock">
-        <!-- <span>Your name: -->
-          <!-- <input type="text" value="Anonymous" id="name"></span><br> -->
-        <form id="messageForm">
-          <textarea rows="4" cols="50" placeholder="Share something!" maxlength="200" id="outgoingMessage"></textarea>
-          <input type="button" value="Share" disabled id="send">
-        </form>
-      </div>
-      <div class="inlineBlock topAligned"><b>Participants</b><br>
-        <div id="participants"></div>
-      </div>
-    </div>
-    <div id="messages"></div>
   </body>
 </html>

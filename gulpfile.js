@@ -16,5 +16,5 @@ gulp.task('default', () => {
         .pipe(browserify({debug: true}))
         .pipe(gulp.dest('dist/ready'));
     }).on('end', () => gulp.src('client/*.html').pipe(gulp.dest('dist/ready')))
-    .on('end', () => gulp.src('client/css/style.css').pipe(gulp.dest('dist/ready')));
+    .on('end', () => gulp.src('client/css/*.css').pipe(gulp.dest('dist/ready')));
 });

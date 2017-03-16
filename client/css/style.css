@@ -1,17 +1,34 @@
-body {
-  padding: 3em;
-  font-family: 'Open Sans', sans-serif;
-  font-size: 1em;
+html, body {
+  height: 100%;
 }
 
-textarea {
-  resize: none;
+.wrapper, .row{
+  height: 100%;
+  margin-left: 0;
+  margin-right: 0;
 }
 
-.inlineBlock {
- display: inline-block;
+.wrapper:before, .wrapper:after,
+.column:before, .column:after {
+    content: "";
+    display: table;
 }
 
-.topAligned {
- vertical-align: top;
+.wrapper:after,
+.column:after {
+    clear: both;
+}
+
+.sidebar {
+  background-color:#eee;
+  height:100%;
+  position:fixed;
+  right:0;
+}
+
+
+.bottom {
+  position: fixed;
+  bottom: 0;
+  width: 98%;
 }
