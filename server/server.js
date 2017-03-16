@@ -16,6 +16,7 @@ const isMessageValid = require('./helpers.js').isMessageValid;
 const getAuthOptions = require('./helpers.js').getAuthOptions;
 const getUserOptions = require('./helpers.js').getUserOptions;
 const getUserSpotifyId = require('./helpers.js').getUserSpotifyId;
+const getUserSpotifyProfilePhoto = require('./helpers.js').getUserSpotifyProfilePhoto;
 
 
 //specify views for folder
@@ -102,6 +103,7 @@ app.get('/callback', function(req, res) {
             refresh_token = body.refresh_token;
 
         getUserSpotifyId(getUserOptions(access_token)).then(id => req.session.user_id = id).then(() => spotifyUser={id: req.session.user_id, token: access_token});
+        getUserSpotifyProfilePhoto(getUserOptions(access_token)).then(images => console.log(images));
 
         //we can also pass the token to the browser to make requests from there
         res.redirect('/#' +

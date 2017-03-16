@@ -45,9 +45,17 @@ const getUserSpotifyId = access_token => new Promise((resolve, reject) => {
   });
 });
 
+const getUserSpotifyProfilePhoto = access_token => new Promise((resolve, reject) => {
+  request.get(access_token, (error, response, body) => {
+    if (error) { reject(error); return; }
+    resolve(body.images[0].url);
+  });
+});
+
 module.exports = {
   isMessageValid: isMessageValid,
   getAuthOptions: getAuthOptions,
   getUserOptions: getUserOptions,
-  getUserSpotifyId: getUserSpotifyId
+  getUserSpotifyId: getUserSpotifyId,
+  getUserSpotifyProfilePhoto: getUserSpotifyProfilePhoto
 };
