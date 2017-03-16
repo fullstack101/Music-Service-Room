@@ -15,6 +15,6 @@ describe('spotify-server', () => {
     // });
 
     it('should return a promise', () => {
-        helperFun.getUserSpotifyId("abcdefghijklmnopqrstuvwxyz").should.be.a('promise');
+        helperFun.getUserSpotifyData("abcdefghijklmnopqrstuvwxyz").should.be.a('promise');
     });
 });

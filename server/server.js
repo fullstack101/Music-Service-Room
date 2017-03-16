@@ -15,7 +15,7 @@ let spotifyUser = {};
 const isMessageValid = require('./helpers.js').isMessageValid;
 const getAuthOptions = require('./helpers.js').getAuthOptions;
 const getUserOptions = require('./helpers.js').getUserOptions;
-const getUserSpotifyId = require('./helpers.js').getUserSpotifyId;
+const getUserSpotifyData = require('./helpers.js').getUserSpotifyData;
 
 
 //specify views for folder
@@ -101,7 +101,8 @@ app.get('/callback', function(req, res) {
         let access_token = body.access_token,
             refresh_token = body.refresh_token;
 
-        getUserSpotifyId(getUserOptions(access_token)).then(id => req.session.user_id = id).then(() => spotifyUser={id: req.session.user_id, token: access_token});
+        getUserSpotifyData(getUserOptions(access_token)).then(body => req.session.user_body = body)
+          .then(() => spotifyUser={id: req.session.user_body.id, token: access_token, image: req.session.user_body.images[0].url});
 
         //we can also pass the token to the browser to make requests from there
         res.redirect('/#' +
@@ -145,19 +146,20 @@ app.get("/chat", function (req, res) {
 app.post("/message", function(req, res) {
   let message = req.body.message;
   let name = req.body.name;
+  let image = req.body.image;
 
   if(!isMessageValid(message)) {
     return res.status(400).json({error: "Message is invalid"});
   }
 
-  io.sockets.emit("incomingMessage", {message: message, name: name});
+  io.sockets.emit("incomingMessage", {message: message, name: name, image: image});
 });
 
 io.on("connection", function(socket){
 
   //when a new user connects
   socket.on("newUser", function(data) {
-      participants.push({id: data.id, name: spotifyUser.id});
+      participants.push({id: data.id, name: spotifyUser.id, image: spotifyUser.image});
       io.sockets.emit("newConnection", {participants: participants});
   });
 

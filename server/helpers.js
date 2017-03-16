@@ -29,19 +29,10 @@ const getAuthOptions = function(refresh_token) {
   };
 };
 
-//how to return from request????????
-// const getUserSpotifyId = function(request, access_token) {
-//   let user_object = getUserOptions(access_token);
-//   request.get(user_object, function(error, response, body) {
-//     console.log(body);
-//       return body.id;
-//   });
-// };
-
-const getUserSpotifyId = access_token => new Promise((resolve, reject) => {
+const getUserSpotifyData = access_token => new Promise((resolve, reject) => {
   request.get(access_token, (error, response, body) => {
     if (error) { reject(error); return; }
-    resolve(body.id);
+    resolve(body);
   });
 });
 
@@ -49,5 +40,5 @@ module.exports = {
   isMessageValid: isMessageValid,
   getAuthOptions: getAuthOptions,
   getUserOptions: getUserOptions,
-  getUserSpotifyId: getUserSpotifyId
+  getUserSpotifyData: getUserSpotifyData
 };
