@@ -1,5 +1,10 @@
 html, body {
   height: 100%;
+  background-color: #181F2F;
+}
+
+h2 {
+  color: #5CB85C;
 }
 
 .wrapper, .row{
@@ -20,15 +25,24 @@ html, body {
 }
 
 .sidebar {
-  background-color:#eee;
+  background-color:#D7D3D0;
   height:100%;
   position:fixed;
   right:0;
 }
 
-
 .bottom {
   position: fixed;
+  float: left;
   bottom: 0;
-  width: 98%;
+  width: 80%;
+}
+
+#messages {
+  background-color: #D7D3D0;
+  border-radius: 10px;
+  opacity: 0.9;
+  width: 83%;
+  margin-bottom: 2.6em;
+  position: static;
 }

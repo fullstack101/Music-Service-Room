@@ -1,3 +1,4 @@
+
 function init() {
   var serverBaseUrl = document.domain;
   var socket = io.connect(serverBaseUrl);
@@ -62,7 +63,11 @@ function init() {
   socket.on('incomingMessage', function (data) {
     var message = data.message;
     var name = data.name;
-    $('#messages').prepend('<b>' + name + '</b><br />' + message + '<hr />');
+    var d = new Date();
+    var h = d.getHours();
+    var m = d.getMinutes();
+    $('#messages').append('<b>' + name + '</b>' + ' @' + h + ':' + m + 'h<br />' + '<br />' + message + '<hr />');
+    $(document).scrollTop($(document).height());
   });
 
   /*
@@ -103,13 +108,6 @@ function init() {
     }
   }
 
-  /*
-   Helper function to disable/enable Send button
-   */
-  function outgoingMessageKeyUp() {
-    var outgoingMessageValue = $('#outgoingMessage').val();
-    $('#send').attr('disabled', (outgoingMessageValue.trim()).length > 0 ? false : true);
-  }
 
   /*
    When a user updates his/her name, let the server know by

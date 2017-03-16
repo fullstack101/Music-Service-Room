@@ -11,29 +11,32 @@
   <body>
     <div class="container-fluid">
       <div class="row wrapper">
-        <h1>Chatroom</h1>
+        <h2>chatroom with very quiet musicn in the background</h2>
         <div class="col-lg-2 sidebar">
           <div><b>Participants</b><br>
             <div id="participants"></div>
           </div>
         </div>
       </div>
-        <div class="row">
-          <div class="col">
-            <form id="messageForm">
-              <div>
-                <div class="input-group bottom">
-                  <input type="text" class="form-control" placeholder="Share something" id="outgoingMessage">
-                  <span class="input-group-btn">
-                    <button class="btn btn-secondary" type="button" id="send">Send</button>
-                  </span>
-                </div>
+      <div class="row">
+        <div class="col">
+          <form id="messageForm">
+            <div>
+              <div class="input-group bottom ">
+                <input type="text" class="form-control" placeholder="Share something" id="outgoingMessage">
+                <span class="input-group-btn">
+                  <button class="btn btn-primary" type="button" id="send">Send</button>
+                </span>
               </div>
-            </form>
-          </div>
+            </div>
+          </form>
         </div>
       </div>
-      <div id="messages"></div>
-    <div>
+      <div class="row">
+        <div class="col">
+          <div id="messages"></div>
+        </div>
+      </div>
+    </div>
   </body>
 </html>
