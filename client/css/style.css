@@ -32,3 +32,13 @@ html, body {
   bottom: 0;
   width: 98%;
 }
+
+.participantPhoto {
+  width: 15%;
+  border-radius: 50%;
+}
+
+.msgPhoto {
+  width: 2%;
+  border-radius: 50%;
+}

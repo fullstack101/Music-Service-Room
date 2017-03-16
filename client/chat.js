@@ -10,15 +10,15 @@ function init() {
   function updateParticipants(participants) {
     $('#participants').html('');
     for (var i = 0; i < participants.length; i++) {
-      $('#participants').append('<span id="' + participants[i].id + '">' +
-        participants[i].name + ' ' + (participants[i].id === sessionId ? '(You)' : '') + '<br /></span>');
+      $('#participants').append('<div id="' + participants[i].id + '"><img src=" ' + participants[i].image + '" class="participantPhoto"> <span>' +
+        participants[i].name + ' ' + (participants[i].id === sessionId ? '(You)' : '') + '<br /></span></div>');
     }
   }
 
-  function getParticipantName(participants) {
+  function getParticipant(participants) {
     for (var i = 0; i < participants.length; i++) {
       if (participants[i].id === sessionId){
-         return participants[i].name;
+         return participants[i];
       };
     }
   }
@@ -62,7 +62,11 @@ function init() {
   socket.on('incomingMessage', function (data) {
     var message = data.message;
     var name = data.name;
-    $('#messages').prepend('<b>' + name + '</b><br />' + message + '<hr />');
+    var image = data.image;
+
+    console.log(image);
+
+    $('#messages').prepend('<img src="' + image +'" class="msgPhoto">' + '<b>' + name + '</b><br />' + message + '<hr />');
   });
 
   /*
@@ -78,13 +82,15 @@ function init() {
    */
   function sendMessage() {
     var outgoingMessage = $('#outgoingMessage').val();
-    var name = getParticipantName(chat_users);
+    var name = getParticipant(chat_users).name;
+    var image = getParticipant(chat_users).image;
+
     $.ajax({
       url:  '/message',
       type: 'POST',
       contentType: 'application/json',
       dataType: 'json',
-      data: JSON.stringify({message: outgoingMessage, name: name})
+      data: JSON.stringify({message: outgoingMessage, name: name, image: image})
     });
   }
 
