@@ -2,36 +2,34 @@
 <html>
   <head>
     <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/4.0.0-alpha.6/css/bootstrap.min.css">
-    <link rel="stylesheet" href="css/style.css">
+    <link rel="stylesheet" href="style.css">
     <script src="//code.jquery.com/jquery-1.11.0.min.js"></script>
     <script src="https://cdn.socket.io/socket.io-1.2.0.js"></script>
     <script src="chat.js"></script>
     <title>Chatroom</title>
   </head>
   <body>
-    <div class="container">
-      <div class="row">
-        <div class="col">
+    <div class="container-fluid">
+      <div class="row wrapper">
+        <h1>Chatroom</h1>
+        <div class="col-lg-2 sidebar">
+          <div><b>Participants</b><br>
+            <div id="participants"></div>
+          </div>
         </div>
       </div>
-    </div>
-    <div class="container">
-      <h1>Chatroom</h1>
         <div class="row">
           <div class="col">
             <form id="messageForm">
-              <div class="col-lg-6">
+              <div>
                 <div class="input-group bottom">
-                  <input type="text" class="form-control " placeholder="Share something">
+                  <input type="text" class="form-control " placeholder="Share something" id="outgoingMessage">
                   <span class="input-group-btn">
-                    <button class="btn btn-secondary" type="button">Send</button>
+                    <button class="btn btn-secondary" type="button" id="send">Send</button>
                   </span>
                 </div>
               </div>
             </form>
-          </div>
-          <div class="inlineBlock topAligned"><b>Participants</b><br>
-            <div id="participants"></div>
           </div>
         </div>
       </div>

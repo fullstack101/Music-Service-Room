@@ -1,5 +1,34 @@
+html, body {
+  height: 100%;
+}
+
+.wrapper, .row{
+  height: 100%;
+  margin-left: 0;
+  margin-right: 0;
+}
+
+.wrapper:before, .wrapper:after,
+.column:before, .column:after {
+    content: "";
+    display: table;
+}
+
+.wrapper:after,
+.column:after {
+    clear: both;
+}
+
+.sidebar {
+  background-color:#eee;
+  height:100%;
+  position:fixed;
+  right:0;
+}
+
+
 .bottom {
   position: fixed;
   bottom: 0;
-  width: 100%;
+  width: 98%;
 }
