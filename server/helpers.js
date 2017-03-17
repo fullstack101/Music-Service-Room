@@ -51,6 +51,13 @@ const getRecentlyPlayedTracks = access_token => new Promise((resolve, reject) =>
   });
 });
 
+const getLastPlayedTrack = access_token => new Promise((resolve, reject) => {
+  request.get(access_token, (error, response, body) => {
+    if (error) { reject(error); return; }
+    resolve(body.items[0].track.uri);
+  });
+});
+
 const getRecentlyPlayedTracksUri = function(tracks) {
   let tracksUri = [];
 
@@ -68,5 +75,6 @@ module.exports = {
   getUserSpotifyData: getUserSpotifyData,
   getRecentlyPlayedOptions: getRecentlyPlayedOptions,
   getRecentlyPlayedTracks: getRecentlyPlayedTracks,
-  getRecentlyPlayedTracksUri: getRecentlyPlayedTracksUri
+  getRecentlyPlayedTracksUri: getRecentlyPlayedTracksUri,
+  getLastPlayedTrack:getLastPlayedTrack
 };

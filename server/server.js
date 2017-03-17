@@ -11,15 +11,14 @@ const _ = require("underscore");
 const session = require('express-session');
 let participants = [];
 let spotifyUser = {};
-let recentlyPlayedTracks = [];
+let lastPlayedTrack = {};
 
 const isMessageValid = require('./helpers.js').isMessageValid;
 const getAuthOptions = require('./helpers.js').getAuthOptions;
 const getUserOptions = require('./helpers.js').getUserOptions;
 const getUserSpotifyData = require('./helpers.js').getUserSpotifyData;
 const getRecentlyPlayedOptions = require('./helpers.js').getRecentlyPlayedOptions;
-const getRecentlyPlayedTracks = require('./helpers.js').getRecentlyPlayedTracks;
-const getRecentlyPlayedTracksUri = require('./helpers.js').getRecentlyPlayedTracksUri;
+const getLastPlayedTrack = require('./helpers.js').getLastPlayedTrack;
 
 //specify views for folder
 // app.set('views', express.static(__dirname + '/../dist/ready'));
@@ -107,7 +106,7 @@ app.get('/callback', function(req, res) {
         getUserSpotifyData(getUserOptions(access_token)).then(body => req.session.user_body = body)
           .then(() => spotifyUser={id: req.session.user_body.id, token: access_token, image: req.session.user_body.images[0].url});
 
-        getRecentlyPlayedTracks(getRecentlyPlayedOptions(access_token)).then(body => recentlyPlayedTracks = getRecentlyPlayedTracksUri(body).slice());
+        getLastPlayedTrack(getRecentlyPlayedOptions(access_token)).then(body => lastPlayedTrack = body);
 
         //we can also pass the token to the browser to make requests from there
         res.redirect('/#' +
