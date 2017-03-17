@@ -12,6 +12,14 @@ const getUserOptions = function(access_token) {
   };
 };
 
+const getRecentlyPlayedOptions = function(access_token) {
+  return {
+    url: 'https://api.spotify.com/v1/me/player/recently-played?limit=3',
+    headers: { 'Authorization': 'Bearer ' + access_token },
+    json: true
+  };
+};
+
 const isMessageValid = function(message) {
   //If the message is empty or wasn't sent it's a bad request
   return !(_.isUndefined(message) && _.isEmpty(message.trim()));
@@ -36,9 +44,29 @@ const getUserSpotifyData = access_token => new Promise((resolve, reject) => {
   });
 });
 
+const getRecentlyPlayedTracks = access_token => new Promise((resolve, reject) => {
+  request.get(access_token, (error, response, body) => {
+    if (error) { reject(error); return; }
+    resolve(body.items);
+  });
+});
+
+const getRecentlyPlayedTracksUri = function(tracks) {
+  let tracksUri = [];
+
+  for(var i = 0; i < tracks.length; i++) {
+    tracksUri.push(tracks[i].track.uri);
+  }
+
+  return tracksUri;
+}
+
 module.exports = {
   isMessageValid: isMessageValid,
   getAuthOptions: getAuthOptions,
   getUserOptions: getUserOptions,
-  getUserSpotifyData: getUserSpotifyData
+  getUserSpotifyData: getUserSpotifyData,
+  getRecentlyPlayedOptions: getRecentlyPlayedOptions,
+  getRecentlyPlayedTracks: getRecentlyPlayedTracks,
+  getRecentlyPlayedTracksUri: getRecentlyPlayedTracksUri
 };
